@@ -12,10 +12,11 @@ let gameBoard = [
   ["2", "*", "*"],
 ];
 
-function getUserInput(symbol) {
+function getUserInput() {
     const command = prompt(
       ` Поле выглядит так\n${gameBoard[0]}\n${gameBoard[1]}\n${gameBoard[2]}\n${gameBoard[3]}\nКуда поставить ${symbol}. Напишите 2 координаты: по y и по x, через запятую`
     );
+    
 }
 
 function randomInteger(min, max) {
@@ -50,4 +51,4 @@ function generateCount() {
 
 
   console.log(gameBoard);
-  getUserInput("X");
+  getUserInput();

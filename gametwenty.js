@@ -2,14 +2,25 @@ let gameBoard = [
   ["*", "*", "*"],
   ["*", "*", "*"],
   ["*", "*", "*"],
-  ["2", "*", "*"],
+  [2, "*", "*"],
 ];
 
 function getUserInput() {
-    const command = prompt(
-      ` Поле выглядит так\n${gameBoard[0]}\n${gameBoard[1]}\n${gameBoard[2]}\n${gameBoard[3]}\nНапишите направление движения поля`
-    );
-    return command
+  const command = prompt(
+    ` Поле выглядит так\n${gameBoard[0]}\n${gameBoard[1]}\n${gameBoard[2]}\n${gameBoard[3]}\nНапишите направление движения поля`
+  );
+  if (command === "a") {
+    while (true) {
+      const y = randomInteger(0, 3);
+      const x = randomInteger(0, 3);
+
+      if (gameBoard[y][x] === "*") {
+        gameBoard[y][x] = 2;
+        return;
+      }
+    }
+  }
+  getUserInput(gameBoard);
 }
 
 function randomInteger(min, max) {
@@ -17,31 +28,31 @@ function randomInteger(min, max) {
   return Math.round(rand);
 }
 
-function createPoint() {
-  const newCount = generateCount();
-  while (true) {
-    const y = randomInteger(0, 3);
-    const x = randomInteger(0, 3);
-
-    if (gameBoard[y][x] === "*") {
-        gameBoard[y][x] = newCount;
-      return;
-    }
-  }
-}
+//function createPoint() {
+//  const newCount = generateCount();
+//  while (true) {
+//    const y = randomInteger(0, 3);
+//    const x = randomInteger(0, 3);
+//
+//    if (gameBoard[y][x] === "*") {
+//        gameBoard[y][x] = newCount;
+//      return;
+//    }
+//  }
+//}
 
 function generateCount() {
   return Math.random() > 0.75 ? 4 : 2;
 }
 
 //function getBoxPosition() {
-  //  const emptyCoordinates = getEmptyMatrixCoordinates();
- //   const randomCoordinateIndex = generateRandom(0, emptyCoordinates.length - 1);
-  
-   // return emptyCoordinates[randomCoordinateIndex];
-  //}
+//  const emptyCoordinates = getEmptyMatrixCoordinates();
+//   const randomCoordinateIndex = generateRandom(0, emptyCoordinates.length - 1);
 
+// return emptyCoordinates[randomCoordinateIndex];
+//}
 
-
+while (true) {
   console.log(gameBoard);
   getUserInput();
+}

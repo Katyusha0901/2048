@@ -1,10 +1,3 @@
-import generateRandom from "generateRandom.js";
-import getMatrix, {
-    addBoxToMatrix,
-    changeMatrixBoxPosition,
-    getEmptyMatrixCoordinates
-  } from "./matrix";
-
 let gameBoard = [
   ["*", "*", "*"],
   ["*", "*", "*"],

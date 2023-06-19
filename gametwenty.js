@@ -48,3 +48,6 @@ function generateCount() {
   //}
 
 
+
+  console.log(gameBoard);
+  getUserInput("X");

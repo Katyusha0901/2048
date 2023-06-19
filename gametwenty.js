@@ -14,9 +14,9 @@ let gameBoard = [
 
 function getUserInput() {
     const command = prompt(
-      ` Поле выглядит так\n${gameBoard[0]}\n${gameBoard[1]}\n${gameBoard[2]}\n${gameBoard[3]}\nКуда поставить ${symbol}. Напишите 2 координаты: по y и по x, через запятую`
+      ` Поле выглядит так\n${gameBoard[0]}\n${gameBoard[1]}\n${gameBoard[2]}\n${gameBoard[3]}\nНапишите направление движения поля`
     );
-    
+    return command
 }
 
 function randomInteger(min, max) {

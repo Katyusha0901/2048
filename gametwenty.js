@@ -1,7 +1,7 @@
 let gameBoard = [
   ["*", "*", "*"],
   ["*", "*", "*"],
-  ["*", "*", "*"],
+  [2, "*", "*"],
   [2, "*", "*"],
 ];
 
@@ -9,19 +9,26 @@ function getUserInput() {
   const command = prompt(
     ` Поле выглядит так\n${gameBoard[0]}\n${gameBoard[1]}\n${gameBoard[2]}\n${gameBoard[3]}\nНапишите направление движения поля`
   );
-  if (command === "a") {
-    while (true) {
-      const y = randomInteger(0, 3);
-      const x = randomInteger(0, 3);
+  let direction = "";
 
-      if (gameBoard[y][x] === "*") {
-        const newCount = Math.random() > 0.5 ? 4 : 2;
-        gameBoard[y][x] = newCount
-        return;
-      }
-    }
+  if (command === "s") {
+    direction = "down";
+    const newPosition = findNextPosition(direction);
+    moveNumber(newPosition);
+    newCount();
   }
   getUserInput(gameBoard);
+}
+
+function newCount() {
+  const y = randomInteger(0, 3);
+  const x = randomInteger(0, 3);
+
+  if (gameBoard[y][x] === "*") {
+    const newCount = Math.random() > 0.5 ? 4 : 2;
+    gameBoard[y][x] = newCount;
+    return;
+  }
 }
 
 function randomInteger(min, max) {
@@ -29,31 +36,32 @@ function randomInteger(min, max) {
   return Math.round(rand);
 }
 
-//function createPoint() {
-//  const newCount = generateCount();
-//  while (true) {
-//    const y = randomInteger(0, 3);
-//    const x = randomInteger(0, 3);
-//
-//    if (gameBoard[y][x] === "*") {
-//        gameBoard[y][x] = newCount;
-//      return;
-//    }
-//  }
-//}
+function findCurrentPosition() {
+  for (let i = 0; i <= 3; i++) {
+    gameBoard[i].forEach((array) => {
+      const j = array.findIndex((element) => typeof element === "number");
+    });
+  }
 
-function generateCount() {
-  return Math.random() > 0.75 ? 4 : 2;
+  return { y: i, x: j };
 }
 
-//function getBoxPosition() {
-//  const emptyCoordinates = getEmptyMatrixCoordinates();
-//   const randomCoordinateIndex = generateRandom(0, emptyCoordinates.length - 1);
+function moveNumber(newPlace) {
+  const currentPosition = findCurrentPosition();
 
-// return emptyCoordinates[randomCoordinateIndex];
-//}
+  if (gameBoard[newPlace.y][newPlace.x] === "*") {
+    gameBoard[newPlace.y][newPlace.x] =
+      gameBoard[currentPosition.y][currentPosition.x];
+  }
+}
+
+function findNextPosition() {
+  const currentPosition = findCurrentPosition();
+  // if (direction === "up" && currentPosition.y >= 1) {
+  return { y: currentPosition.y + 1, x: currentPosition.x };
+  //}
+}
 
 while (true) {
-  console.log(gameBoard);
   getUserInput();
 }

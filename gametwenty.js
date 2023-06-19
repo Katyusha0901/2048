@@ -15,7 +15,8 @@ function getUserInput() {
       const x = randomInteger(0, 3);
 
       if (gameBoard[y][x] === "*") {
-        gameBoard[y][x] = 2;
+        const newCount = Math.random() > 0.5 ? 4 : 2;
+        gameBoard[y][x] = newCount
         return;
       }
     }

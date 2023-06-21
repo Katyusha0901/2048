@@ -11,7 +11,7 @@ while (true) {
   console.log(turnsNumber);
   rotateMultipleTimes(turnsNumber);
 
-  shiftAndUnionDigits();
+  shiftAndMergeDigits();
   const revolutionsNumber = field.length - turnsNumber;
   rotateMultipleTimes(revolutionsNumber);
 }
@@ -39,7 +39,7 @@ function requestDirection() {
 
   switch (command) {
     case "d":
-      shiftAndUnionDigits();
+      shiftAndMergeDigits();
 
     case "s":
       return 3;
@@ -80,14 +80,14 @@ function rotateField() {
 }
 
 //=======================================================================================================================================
-// Тhe мodule in which numbers are shifted and unioned
+// Тhe мodule in which numbers are shifted and merged
 //=======================================================================================================================================
 
-function shiftAndUnionDigits() {
+function shiftAndMergeDigits() {
   const newField = field.map((str) => {
     const arrayWithShiftedDigits = elementShift(str);
-    const arrayWithUnionDigits = unionOfElements(arrayWithShiftedDigits);
-    const finalArray = elementShift(arrayWithUnionDigits);
+    const shiftAndMergeDigits = shiftAndMergeDigits(arrayWithShiftedDigits);
+    const finalArray = elementShift(shiftAndMergeDigits);
     return finalArray;
   });
   field = newField;
@@ -115,7 +115,7 @@ function elementShift(stringFromArray) {
   return stringFromArray;
 }
 
-function unionOfElements(shiftedDigits) {
+function mergeOfElements(shiftedDigits) {
   for (let i = 1; i < shiftedDigits.length; i++) {
     if (
       shiftedDigits[shiftedDigits.length - i] ===

@@ -1,34 +1,29 @@
 let gameBoard = [
   ["*", "*", "*"],
   ["*", "*", "*"],
-  [2, "*", "*"],
+  ["*", "*", "*"],
   [2, "*", "*"],
 ];
 
-function getUserInput() {
-  const command = prompt(
-    ` Поле выглядит так\n${gameBoard[0]}\n${gameBoard[1]}\n${gameBoard[2]}\n${gameBoard[3]}\nНапишите направление движения поля`
-  );
-  let direction = "";
-
-  if (command === "s") {
-    direction = "down";
-    const newPosition = findNextPosition(direction);
-    moveNumber(newPosition);
-    newCount();
-  }
-  getUserInput(gameBoard);
+while (true) {
+  newCount(gameBoard);
+  const direction = goGame(gameBoard);
+  repeatFunctionMultipleTimes(direction);
+  const newGameBoard = algorithmFunction(gameBoard);
+  const revolutionsNumber = 4 - direction;
+  repeatFunctionMultipleTimes(revolutionsNumber);
 }
 
-function newCount() {
+function newCount(gameBoard) {
   const y = randomInteger(0, 3);
   const x = randomInteger(0, 3);
-
   if (gameBoard[y][x] === "*") {
-    const newCount = Math.random() > 0.5 ? 4 : 2;
+    const newCount = Math.random() > 0.75 ? 4 : 2;
     gameBoard[y][x] = newCount;
-    return;
+
+    return gameBoard;
   }
+  newCount(gameBoard);
 }
 
 function randomInteger(min, max) {
@@ -36,32 +31,77 @@ function randomInteger(min, max) {
   return Math.round(rand);
 }
 
-function findCurrentPosition() {
+function goGame(gameBoard) {
+  const command = prompt(
+    ` Поле выглядит так\n${gameBoard[0]}\n${gameBoard[1]}\n${gameBoard[2]}\n${gameBoard[3]}\nНапишите направление движения поля`
+  );
+  let direction = 0;
+  if (command === "d") {
+    direction += 0;
+  }
+  if (command === "s") {
+    direction += 3;
+  }
+  if (command === "a") {
+    direction += 2;
+  }
+  if (command === "w") {
+    direction += 1;
+  }
+  return direction;
+}
+
+function repeatFunctionMultipleTimes(direction) {
+  for (let i = 0; i <= direction; i++) {
+    fieldRotationBy90(gameBoard);
+  }
+  return gameBoard;
+}
+
+function fieldRotationBy90(gameBoard) {
+  let newArr = [
+    ["*", "*", "*"],
+    ["*", "*", "*"],
+    ["*", "*", "*"],
+    ["*", "*", "*"],
+  ];
   for (let i = 0; i <= 3; i++) {
-    gameBoard[i].forEach((array) => {
-      const j = array.findIndex((element) => typeof element === "number");
-    });
+    for (let j = 0; j <= 3; j++) {
+      newArr[j][gameBoard.length - 1 - i] = gameBoard[i][j];
+    }
   }
-
-  return { y: i, x: j };
+  return newArr;
 }
 
-function moveNumber(newPlace) {
-  const currentPosition = findCurrentPosition();
+function algorithmFunction(gameBoard) {
+  let newGameBoard = gameBoard.forEach((str) => {
+    const first = elementShift(str);
+    const second = unionOfElements(first);
+    elementShift(second);
+  });
+  return newGameBoard;
+}
 
-  if (gameBoard[newPlace.y][newPlace.x] === "*") {
-    gameBoard[newPlace.y][newPlace.x] =
-      gameBoard[currentPosition.y][currentPosition.x];
+function elementShift(arr) {
+  for (let i = 1; i <= arr.length - 1; i++) {
+    if (arr[arr.length - i] === "*") {
+      arr[arr.length - i] = arr[arr.length - i - 1];
+      arr[arr.length - i - 1] = "*";
+    }
   }
+  return arr;
 }
 
-function findNextPosition() {
-  const currentPosition = findCurrentPosition();
-  // if (direction === "up" && currentPosition.y >= 1) {
-  return { y: currentPosition.y + 1, x: currentPosition.x };
-  //}
-}
-
-while (true) {
-  getUserInput();
+function unionOfElements(newArr) {
+  for (let i = 1; i <= newArr.length - 1; i++) {
+    if (
+      newArr[newArr.length - i] === newArr[newArr.length - i - 1] &&
+      newArr[newArr.length - i] !== "*"
+    ) {
+      newArr[newArr.length - i] =
+        newArr[newArr.length - i - 1] + newArr[newArr.length - i - 1];
+      newArr[newArr.length - i - 1] = "*";
+    }
+  }
+  return newArr;
 }

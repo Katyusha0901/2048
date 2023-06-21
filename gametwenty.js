@@ -10,6 +10,7 @@ while (true) {
   const direction = goGame(gameBoard);
   repeatFunctionMultipleTimes(direction);
   const newGameBoard = algorithmFunction(gameBoard);
+
   const revolutionsNumber = 4 - direction;
   repeatFunctionMultipleTimes(revolutionsNumber);
 }
@@ -70,7 +71,8 @@ function fieldRotationBy90(gameBoard) {
       newArr[j][gameBoard.length - 1 - i] = gameBoard[i][j];
     }
   }
-  return newArr;
+  newArr = gameBoard;
+  return gameBoard;
 }
 
 function algorithmFunction(gameBoard) {
@@ -79,7 +81,8 @@ function algorithmFunction(gameBoard) {
     const second = unionOfElements(first);
     elementShift(second);
   });
-  return newGameBoard;
+  newGameBoard = gameBoard;
+  return gameBoard;
 }
 
 function elementShift(arr) {

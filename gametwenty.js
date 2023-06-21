@@ -1,30 +1,30 @@
-let gameBoard = [
-  ["*", "*", "*"],
-  ["*", "*", "*"],
-  ["*", "*", "*"],
-  [2, "*", "*"],
+let field = [
+  ["*", "*", "*", "*"],
+  ["*", "*", "*", "*"],
+  ["*", "*", "*", "*"],
+  [2, "*", "*", "*"],
 ];
 
 while (true) {
-  newCount(gameBoard);
-  const direction = goGame(gameBoard);
-  repeatFunctionMultipleTimes(direction);
-  const newGameBoard = algorithmFunction(gameBoard);
+  generateNewNumber();
+  const turnsNumber = requestDirection();
+  console.log(turnsNumber);
+  rotateMultipleTimes(turnsNumber);
 
-  const revolutionsNumber = 4 - direction;
-  repeatFunctionMultipleTimes(revolutionsNumber);
+  shiftAndUnionDigits();
+  const revolutionsNumber = field.length - turnsNumber;
+  rotateMultipleTimes(revolutionsNumber);
 }
 
-function newCount(gameBoard) {
+function generateNewNumber() {
   const y = randomInteger(0, 3);
   const x = randomInteger(0, 3);
-  if (gameBoard[y][x] === "*") {
+  if (field[y][x] === "*") {
     const newCount = Math.random() > 0.75 ? 4 : 2;
-    gameBoard[y][x] = newCount;
-
-    return gameBoard;
+    field[y][x] = newCount;
+  } else {
+    generateNewNumber();
   }
-  newCount(gameBoard);
 }
 
 function randomInteger(min, max) {
@@ -32,79 +32,101 @@ function randomInteger(min, max) {
   return Math.round(rand);
 }
 
-function goGame(gameBoard) {
+function requestDirection() {
   const command = prompt(
-    ` Поле выглядит так\n${gameBoard[0]}\n${gameBoard[1]}\n${gameBoard[2]}\n${gameBoard[3]}\nНапишите направление движения поля`
+    ` Поле выглядит так\n${field[0]}\n${field[1]}\n${field[2]}\n${field[3]}\nНапишите направление движения поля`
   );
-  let direction = 0;
-  if (command === "d") {
-    direction += 0;
+
+  switch (command) {
+    case "d":
+      shiftAndUnionDigits();
+
+    case "s":
+      return 3;
+
+    case "a":
+      return 2;
+
+    case "w":
+      return 1;
+
+    case undefined:
+      requestDirection();
   }
-  if (command === "s") {
-    direction += 3;
-  }
-  if (command === "a") {
-    direction += 2;
-  }
-  if (command === "w") {
-    direction += 1;
-  }
-  return direction;
 }
 
-function repeatFunctionMultipleTimes(direction) {
-  for (let i = 0; i <= direction; i++) {
-    fieldRotationBy90(gameBoard);
+//================================================================================================================================================
+//The module in which the field rotates
+//=============================================================================================================================================================
+
+function rotateMultipleTimes(turnsNumber) {
+  for (let i = 0; i < turnsNumber; i++) {
+    rotateField();
   }
-  return gameBoard;
 }
 
-function fieldRotationBy90(gameBoard) {
-  let newArr = [
-    ["*", "*", "*"],
-    ["*", "*", "*"],
-    ["*", "*", "*"],
-    ["*", "*", "*"],
-  ];
+function rotateField() {
+  const arrayForRotate = [];
+  for (let i = 0; i < field.length; i++) {
+    arrayForRotate.push([]);
+  }
+
   for (let i = 0; i <= 3; i++) {
     for (let j = 0; j <= 3; j++) {
-      newArr[j][gameBoard.length - 1 - i] = gameBoard[i][j];
+      arrayForRotate[j][3 - i] = field[i][j];
     }
   }
-  newArr = gameBoard;
-  return gameBoard;
+  field = arrayForRotate;
 }
 
-function algorithmFunction(gameBoard) {
-  let newGameBoard = gameBoard.forEach((str) => {
-    const first = elementShift(str);
-    const second = unionOfElements(first);
-    elementShift(second);
+//=======================================================================================================================================
+// Тhe мodule in which numbers are shifted and unioned
+//=======================================================================================================================================
+
+function shiftAndUnionDigits() {
+  const newField = field.map((str) => {
+    const arrayWithShiftedDigits = elementShift(str);
+    const arrayWithUnionDigits = unionOfElements(arrayWithShiftedDigits);
+    const finalArray = elementShift(arrayWithUnionDigits);
+    return finalArray;
   });
-  newGameBoard = gameBoard;
-  return gameBoard;
+  field = newField;
 }
 
-function elementShift(arr) {
-  for (let i = 1; i <= arr.length - 1; i++) {
-    if (arr[arr.length - i] === "*") {
-      arr[arr.length - i] = arr[arr.length - i - 1];
-      arr[arr.length - i - 1] = "*";
+function elementShift(stringFromArray) {
+  for (let i = 1; i < stringFromArray.length; i++) {
+    if (stringFromArray[stringFromArray.length - i] === "*") {
+      stringFromArray[stringFromArray.length - i] =
+        stringFromArray[stringFromArray.length - i - 1];
+      stringFromArray[stringFromArray.length - i - 1] = "*";
     }
-  }
-  return arr;
-}
-
-function unionOfElements(newArr) {
-  for (let i = 1; i <= newArr.length - 1; i++) {
     if (
-      newArr[newArr.length - i] === newArr[newArr.length - i - 1] &&
-      newArr[newArr.length - i] !== "*"
+      stringFromArray[stringFromArray.length - i] === "*" &&
+      stringFromArray[stringFromArray.length - i + 1] === "*"
     ) {
-      newArr[newArr.length - i] =
-        newArr[newArr.length - i - 1] + newArr[newArr.length - i - 1];
-      newArr[newArr.length - i - 1] = "*";
+      stringFromArray[stringFromArray.length - i + 1] =
+        stringFromArray[stringFromArray.length - i - 1];
+
+      stringFromArray[stringFromArray.length - i] = "*";
+
+      stringFromArray[stringFromArray.length - i - 1] = "*";
     }
   }
-  return newArr;
+  return stringFromArray;
+}
+
+function unionOfElements(shiftedDigits) {
+  for (let i = 1; i < shiftedDigits.length; i++) {
+    if (
+      shiftedDigits[shiftedDigits.length - i] ===
+        shiftedDigits[shiftedDigits.length - i - 1] &&
+      shiftedDigits[shiftedDigits.length - i] !== "*"
+    ) {
+      shiftedDigits[shiftedDigits.length - i] =
+        shiftedDigits[shiftedDigits.length - i - 1] +
+        shiftedDigits[shiftedDigits.length - i - 1];
+      shiftedDigits[shiftedDigits.length - i - 1] = "*";
+    }
+  }
+  return shiftedDigits;
 }

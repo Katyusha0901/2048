@@ -6,24 +6,24 @@ let field = [
 ];
 
 while (true) {
-  generateNewCount();
-  const turnsCount = requestDirection();
+  generateNewValue();
+  const turnsValue = requestDirection();
 
-  rotateMultipleTimes(turnsCount);
+  rotateMultipleTimes(turnsValue);
   shiftAndMerge();
 
-  const revolutionsCount = field.length - turnsCount;
-  rotateMultipleTimes(revolutionsCount);
+  const revolutionsValue = field.length - turnsValue;
+  rotateMultipleTimes(revolutionsValue);
 }
 
-function generateNewCount() {
+function generateNewValue() {
   const y = randomInteger(0, 3);
   const x = randomInteger(0, 3);
   if (field[y][x] === "*") {
-    const newCount = Math.random() > 0.75 ? 4 : 2;
-    field[y][x] = newCount;
+    const newValue = Math.random() > 0.75 ? 4 : 2;
+    field[y][x] = newValue;
   } else {
-    generateNewCount();
+    generateNewValue();
   }
 }
 
@@ -51,7 +51,7 @@ function requestDirection() {
       return 1;
 
     default:
-      requestDirection();
+      return requestDirection();
   }
 }
 
@@ -59,8 +59,8 @@ function requestDirection() {
 //The module in which the field rotates
 //=============================================================================================================================================================
 
-function rotateMultipleTimes(turnsCount) {
-  for (let i = 0; i < turnsCount; i++) {
+function rotateMultipleTimes(turnsValue) {
+  for (let i = 0; i < turnsValue; i++) {
     rotateField();
   }
 }
@@ -80,7 +80,7 @@ function rotateField() {
 }
 
 //=======================================================================================================================================
-// Тhe мodule in which counts are shifted and merged
+// Тhe мodule in which values are shifted and merged
 //=======================================================================================================================================
 
 function shiftAndMerge() {
@@ -102,7 +102,6 @@ function shiftElement(stringFromField) {
       }
     }
   }
-  return stringFromField;
 }
 
 function mergeElements(arrayWithShiftedDigits) {

@@ -49,6 +49,9 @@ function requestDirection() {
 
     case "w":
       return 1;
+
+    default:
+      requestDirection();
   }
 }
 

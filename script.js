@@ -66,12 +66,12 @@ function requestDirection() {
 
 function rotateMultipleTimes(turnsValue) {
   console.log("функция rotateMultipleTimes");
-
-  console.log(`${field}`);
+  console.log(turnsValue);
+  console.log(`${field[0]}\n${field[1]}\n${field[2]}\n${field[3]}`);
   console.log(`${field[0]}`);
 
   for (let i = 0; i < turnsValue; i++) {
-    return rotateField();
+    rotateField();
   }
 }
 
@@ -132,7 +132,8 @@ function mergeElements(arrayWithShiftedDigits) {
       array[array.length - i] === array[array.length - i - 1] &&
       array[array.length - i] !== "*"
     ) {
-      array[array.length - i] = array[array.length - i - 1] + array[array.length - i - 1];
+      array[array.length - i] =
+        array[array.length - i - 1] + array[array.length - i - 1];
       array[array.length - i - 1] = "*";
     }
   }

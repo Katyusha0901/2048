@@ -7,23 +7,24 @@ let field = [
 
 while (true) {
   generateNewValue();
-  let turnsValue = requestDirection();
+  const turnsValue = requestDirection();
 
   rotateMultipleTimes(turnsValue);
   shiftAndMerge();
 
-  let revolutionsValue = field.length - turnsValue;
+  const revolutionsValue = field.length - turnsValue;
   rotateMultipleTimes(revolutionsValue);
 }
 
 function generateNewValue() {
   const y = randomInteger(0, 3);
   const x = randomInteger(0, 3);
+
   if (field[y][x] === "*") {
     const newValue = Math.random() > 0.75 ? 4 : 2;
     field[y][x] = newValue;
   } else {
-    return generateNewValue();
+     generateNewValue();
   }
 }
 
@@ -67,6 +68,7 @@ function rotateMultipleTimes(turnsValue) {
 
 function rotateField() {
   let rotatedField = [];
+
   for (let i = 0; i < field.length; i++) {
     rotatedField.push([]);
   }
@@ -84,11 +86,10 @@ function rotateField() {
 //=======================================================================================================================================
 
 function shiftAndMerge() {
-  field.map((str) => {
+  field.forEach((str) => {
     shiftElement(str);
     mergeElements(str);
-    const shiftAndMergeElement = shiftElement(str);
-    return shiftAndMergeElement;
+    shiftElement(str);
   });
 }
 
@@ -105,6 +106,7 @@ function shiftElement(stringFromField) {
 
 function mergeElements(arrayWithShiftedDigits) {
   const array = arrayWithShiftedDigits;
+
   for (let i = 0; i < array.length; i++) {
     if (
       array[array.length - i] === array[array.length - i - 1] &&
